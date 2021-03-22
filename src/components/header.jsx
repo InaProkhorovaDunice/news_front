@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { checkIfAuthorized } from '../../hooks/usePermissions';
+import { checkIfAuthorized } from '../hooks/usePermissions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
