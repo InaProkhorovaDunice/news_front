@@ -1,9 +1,24 @@
 import { handleActions } from 'redux-actions';
-import {} from '../actions/authActions';
+import {
+  requestSignUpSuccess,
+  requestSignUpFailed,
+  requestLoginSuccess,
+  requestLoginFailed,
+} from '../actions/authActions';
 
-const initialState = {};
+const initialState = {
+  userInfo: {},
+  registrationError: '',
+};
 
-const authHandler = {};
+const authHandler = {
+  [requestSignUpSuccess]: (state, { payload }) => {
+    return { ...state };
+  },
+  [requestLoginSuccess]: (state, { payload }) => {
+    return { ...state };
+  },
+};
 
 const authReducer = handleActions(authHandler, initialState);
 export default authReducer;

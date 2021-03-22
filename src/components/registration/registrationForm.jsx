@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import './../../styles/registration.scss';
-import './../../styles/reactForm.scss';
+import '../../styles/registration.scss';
+import '../../styles/reactForm.scss';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { upperFirst } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { validateEmail } from '../../hooks/useValidation';
+import { requestSignUp, requestLogin } from '../../redux/actions/authActions';
 
 const classNames = require('classnames');
 
 const RegistrationForm = ({ action, link }) => {
   const { register, handleSubmit, errors } = useForm();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
   const label = upperFirst(link.replace('_', ' '));
 
   const onSubmit = (data) => {
-    setEmail(data.email);
-    setPassword(data.password);
+    const payload = { ...data };
+    debugger;
+    if (action === 'Sign In') {
+      dispatch(requestLogin(payload));
+    } else {
+      dispatch(requestSignUp(payload));
+    }
   };
 
   return (
