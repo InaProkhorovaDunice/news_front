@@ -4,7 +4,7 @@ import RegistrationForm from './registrationForm';
 const SignUpPage = () => {
   return (
     <div>
-      <RegistrationForm />
+      <RegistrationForm action={'Sign In'} link={'sign_up'} />
     </div>
   );
 };

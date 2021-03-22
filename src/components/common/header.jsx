@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -147,7 +148,9 @@ const PrimarySearchAppBar = () => {
             <MenuItem onClick={handleMenuClose}>All news</MenuItem>
           </div>
         ) : (
-          <MenuItem onClick={handleMenuClose}>Sign In / Sign Up</MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to={'/sign_in'}>Sign In / Sign Up</Link>
+          </MenuItem>
         )}
       </Menu>
     </div>
