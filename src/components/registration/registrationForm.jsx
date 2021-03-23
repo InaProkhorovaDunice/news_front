@@ -19,7 +19,6 @@ const RegistrationForm = ({ action, link }) => {
 
   const onSubmit = (data) => {
     const payload = { ...data };
-    debugger;
     if (action === 'Sign In') {
       dispatch(requestLogin(payload));
     } else {

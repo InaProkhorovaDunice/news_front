@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
+import { setLocalStorageItem } from '../../hooks/useLocalStorage';
 import {
-  requestSignUpSuccess,
   requestSignUpFailed,
   requestLoginSuccess,
   requestLoginFailed,
@@ -12,11 +12,10 @@ const initialState = {
 };
 
 const authHandler = {
-  [requestSignUpSuccess]: (state, { payload }) => {
-    return { ...state };
-  },
   [requestLoginSuccess]: (state, { payload }) => {
-    return { ...state };
+    setLocalStorageItem('client', payload.headers.client);
+    setLocalStorageItem('access-token', payload.headers['access-token']);
+    return { ...state, userInfo: payload.data };
   },
 };
 

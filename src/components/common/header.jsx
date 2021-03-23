@@ -149,7 +149,7 @@ const PrimarySearchAppBar = () => {
           </div>
         ) : (
           <MenuItem onClick={handleMenuClose}>
-            <Link to={'/sign_in'}>Sign In / Sign Up</Link>
+            <Link to={'/sign_in'}>Sign In</Link>
           </MenuItem>
         )}
       </Menu>
