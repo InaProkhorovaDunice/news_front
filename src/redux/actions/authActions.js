@@ -2,22 +2,28 @@ import { createActions } from 'redux-actions';
 
 import {
   REQUEST_SIGN_UP,
-  REQUEST_SIGN_UP_FAILED,
-  REQUEST_LOGIN,
-  REQUEST_LOGIN_SUCCESS,
-  REQUEST_LOGIN_FAILED,
+  REQUEST_SIGN_IN,
+  REQUEST_SIGN_IN_SUCCESS,
+  REQUEST_SIGN_IN_FAILED,
+  REQUEST_SIGN_OUT,
+  REQUEST_SIGN_OUT_SUCCESS,
+  REQUEST_SIGN_OUT_FAILED,
 } from '../constants';
 
 export const {
   requestSignUp,
-  requestSignUpFailed,
-  requestLogin,
-  requestLoginSuccess,
-  requestLoginFailed,
+  requestSignIn,
+  requestSignInSuccess,
+  requestSignInFailed,
+  requestSignOut,
+  requestSignOutSuccess,
+  requestSignOutFailed,
 } = createActions(
   REQUEST_SIGN_UP,
-  REQUEST_SIGN_UP_FAILED,
-  REQUEST_LOGIN,
-  REQUEST_LOGIN_SUCCESS,
-  REQUEST_LOGIN_FAILED,
+  REQUEST_SIGN_IN,
+  REQUEST_SIGN_IN_SUCCESS,
+  REQUEST_SIGN_IN_FAILED,
+  REQUEST_SIGN_OUT,
+  REQUEST_SIGN_OUT_SUCCESS,
+  REQUEST_SIGN_OUT_FAILED,
 );

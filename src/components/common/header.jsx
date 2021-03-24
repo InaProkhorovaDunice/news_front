@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
@@ -13,6 +14,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { checkIfAuthorized } from '../../hooks/usePermissions';
+import { requestSignOut } from '../../redux/actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -79,8 +81,10 @@ const useStyles = makeStyles((theme) => ({
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isAuthorized, setIsAuthorized] = React.useState(false);
+  const menuId = 'primary-search-account-menu';
 
   useEffect(() => {
     setIsAuthorized(checkIfAuthorized());
@@ -96,7 +100,10 @@ const PrimarySearchAppBar = () => {
     setAnchorEl(null);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const signOut = () => {
+    setAnchorEl(null);
+    dispatch(requestSignOut());
+  };
 
   return (
     <div className={classes.grow}>
@@ -146,6 +153,7 @@ const PrimarySearchAppBar = () => {
           <div>
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>All news</MenuItem>
+            <MenuItem onClick={signOut}>Sign Out</MenuItem>
           </div>
         ) : (
           <MenuItem onClick={handleMenuClose}>

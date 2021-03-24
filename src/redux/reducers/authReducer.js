@@ -1,9 +1,10 @@
 import { handleActions } from 'redux-actions';
-import { setLocalStorageItem } from '../../hooks/useLocalStorage';
+import { setLocalStorageItem, clearLocalStorage } from '../../hooks/useLocalStorage';
 import {
-  requestSignUpFailed,
-  requestLoginSuccess,
-  requestLoginFailed,
+  requestSignInSuccess,
+  requestSignInFailed,
+  requestSignOutSuccess,
+  requestSignOutFailed,
 } from '../actions/authActions';
 
 const initialState = {
@@ -12,10 +13,21 @@ const initialState = {
 };
 
 const authHandler = {
-  [requestLoginSuccess]: (state, { payload }) => {
+  [requestSignInSuccess]: (state, { payload }) => {
     setLocalStorageItem('client', payload.headers.client);
     setLocalStorageItem('access-token', payload.headers['access-token']);
-    return { ...state, userInfo: payload.data };
+    setLocalStorageItem('uid', payload.headers['uid']);
+    return { ...state, userInfo: payload.data, registrationError: '' };
+  },
+  [requestSignInFailed]: (state, { payload }) => {
+    return { ...state, registrationError: payload.data.errors.join('.') };
+  },
+  [requestSignOutSuccess]: (state) => {
+    clearLocalStorage();
+    return { ...state, userInfo: {}, registrationError: '' };
+  },
+  [requestSignOutFailed]: (state, { error }) => {
+    return { ...state, registrationError: error.message };
   },
 };
 

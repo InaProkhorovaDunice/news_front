@@ -1,33 +1,34 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../styles/registration.scss';
 import '../../styles/reactForm.scss';
 import { Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { upperFirst } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { validateEmail } from '../../hooks/useValidation';
-import { requestSignUp, requestLogin } from '../../redux/actions/authActions';
+import { requestSignUp, requestSignIn } from '../../redux/actions/authActions';
 
 const classNames = require('classnames');
 
 const RegistrationForm = ({ action, link }) => {
   const { register, handleSubmit, errors } = useForm();
+  const navigation = useHistory();
   const dispatch = useDispatch();
   const label = upperFirst(link.replace('_', ' '));
+  const registrationError = useSelector((state) => state.auth.registrationError);
 
-  const onSubmit = (data) => {
-    const payload = { ...data };
-    if (action === 'Sign In') {
-      dispatch(requestLogin(payload));
-    } else {
-      dispatch(requestSignUp(payload));
+  const onSubmit = async (data) => {
+    await dispatch(action === 'Sign In' ? requestSignIn(data) : requestSignUp(data));
+    if (!registrationError) {
+      navigation.push('/');
     }
   };
 
   return (
     <div className={'registration-container'}>
+      {registrationError && <Typography className={'error-text'}>{registrationError}</Typography>}
       <form className={'form-block'} onSubmit={handleSubmit(onSubmit)}>
         <Typography variant={'h4'}>{action}</Typography>
         <input
