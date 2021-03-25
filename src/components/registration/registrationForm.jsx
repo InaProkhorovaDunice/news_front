@@ -8,6 +8,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { upperFirst } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { validateEmail } from '../../hooks/useValidation';
+import { getLocalStorageItem } from '../../hooks/useLocalStorage';
 import { requestSignUp, requestSignIn } from '../../redux/actions/authActions';
 
 const classNames = require('classnames');
@@ -19,18 +20,25 @@ const RegistrationForm = ({ action, link }) => {
   const label = upperFirst(link.replace('_', ' '));
   const registrationError = useSelector((state) => state.auth.registrationError);
 
-  const onSubmit = async (data) => {
-    await dispatch(action === 'Sign In' ? requestSignIn(data) : requestSignUp(data));
+  const onSubmit = (data) => {
+    dispatch(action === 'Sign In' ? requestSignIn(data) : requestSignUp(data));
+    setTimeout(() => mainRedirect(), 1000);
+  };
+
+  const mainRedirect = () => {
     if (!registrationError) {
-      navigation.push('/');
+      const uid = getLocalStorageItem('uid');
+      if (uid) {
+        navigation.push('/');
+      }
     }
   };
 
   return (
     <div className={'registration-container'}>
-      {registrationError && <Typography className={'error-text'}>{registrationError}</Typography>}
       <form className={'form-block'} onSubmit={handleSubmit(onSubmit)}>
         <Typography variant={'h4'}>{action}</Typography>
+        {registrationError && <Typography className={'error-text'}>{registrationError}</Typography>}
         <input
           className={'base-input'}
           name="email"

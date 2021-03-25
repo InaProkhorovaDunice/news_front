@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -82,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const navigation = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isAuthorized, setIsAuthorized] = React.useState(false);
   const menuId = 'primary-search-account-menu';
@@ -103,6 +104,7 @@ const PrimarySearchAppBar = () => {
   const signOut = () => {
     setAnchorEl(null);
     dispatch(requestSignOut());
+    navigation.push('/sign_in');
   };
 
   return (
