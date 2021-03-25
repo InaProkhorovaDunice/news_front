@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -11,6 +13,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { requestSignOut } from '../redux/actions/authActions';
 import { checkIfAuthorized } from '../hooks/usePermissions';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
+      cursor: 'pointer',
     },
   },
   search: {
@@ -78,8 +82,11 @@ const useStyles = makeStyles((theme) => ({
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isAuthorized, setIsAuthorized] = React.useState(false);
+  const dispatch = useDispatch();
+  const navigation = useHistory();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const menuId = 'primary-search-account-menu';
 
   useEffect(() => {
     setIsAuthorized(checkIfAuthorized());
@@ -95,13 +102,25 @@ const PrimarySearchAppBar = () => {
     setAnchorEl(null);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const signOut = () => {
+    setAnchorEl(null);
+    dispatch(requestSignOut());
+    navigation.push('/sign_in');
+  };
+
+  const profileRedirect = () => {
+    navigation.push('/profile');
+  };
+
+  const mainRedirect = () => {
+    navigation.push('/');
+  };
 
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h6" noWrap onClick={mainRedirect}>
             News
           </Typography>
           <div className={classes.search}>
@@ -143,11 +162,13 @@ const PrimarySearchAppBar = () => {
       >
         {isAuthorized ? (
           <div>
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>All news</MenuItem>
+            <MenuItem onClick={profileRedirect}>Profile</MenuItem>
+            <MenuItem onClick={signOut}>Sign Out</MenuItem>
           </div>
         ) : (
-          <MenuItem onClick={handleMenuClose}>Sign In / Sign Up</MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to={'/sign_in'}>Sign In</Link>
+          </MenuItem>
         )}
       </Menu>
     </div>
