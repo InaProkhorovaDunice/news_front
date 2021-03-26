@@ -12,19 +12,18 @@ import {
   loadUsersFailed,
 } from '../actions/userActions';
 
-function* loadUsers(data) {
+function* loadUsers(action) {
   const accessToken = getLocalStorageItem('access-token');
   const uid = getLocalStorageItem('uid');
   const client = getLocalStorageItem('client');
   try {
-    const response = yield call(axios.get, `${apiUrl}/users`, {
+    const response = yield call(axios.get, `${apiUrl}/users?${action.payload.params}`, {
       headers: {
         'Access-Control-Allow-Origin': '*/*',
         'Content-Type': 'application/json',
         'access-token': accessToken,
         uid: uid,
         client: client,
-        data: data.payload,
       },
     });
     yield put(loadUsersSuccess(response.data));
