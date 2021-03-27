@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadAllNews } from '../redux/actions/newsActions';
+import { Typography } from '@material-ui/core';
+import '../styles/pages.scss';
 import NewsList from './newsList';
 
 const MainPage = () => {
+  const dispatch = useDispatch();
+  const news = useSelector((state) => state.news.allNews);
+
+  useEffect(() => dispatch(loadAllNews()), []);
+
   return (
-    <div>
-      <NewsList news={[1, 2, 3, 4, 5, 6, 7]} />
+    <div className={'main-block'}>
+      {news && news.length ? <NewsList news={news} /> : <Typography>No news added yet.</Typography>}
     </div>
   );
 };
