@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../styles/registration.scss';
@@ -47,7 +47,7 @@ const RegistrationForm = ({ action, link }) => {
         />
         {errors.email && (
           <span className={'error-text'}>
-            This field is required and must match the format example@service.domen{' '}
+            This field is required and must match the format example@service.domen
           </span>
         )}
         <input
@@ -58,7 +58,7 @@ const RegistrationForm = ({ action, link }) => {
         />
         {errors.password && (
           <span className={'error-text'}>
-            This field is required and must contain at least 6 characters
+            This field is required and must contain at least 6 characters.
           </span>
         )}
         <input className={classNames('base-input', 'blue-button')} type="submit" value={action} />

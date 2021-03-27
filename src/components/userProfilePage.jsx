@@ -5,6 +5,8 @@ import '../styles/pages.scss';
 import { Typography, Button, Modal, Backdrop } from '@material-ui/core';
 import { loadUsers } from '../redux/actions/userActions';
 import NewsList from './newsList';
+import InfoBlock from './common/infoBlock';
+import ProfileInfo from '../components/profileInfo';
 // const AddNewsForm = lazy(() => import('../components/addNewsForm'));
 import AddNewsForm from '../components/addNewsForm';
 import EditProfileForm from '../components/editProfileForm';
@@ -27,11 +29,12 @@ const useStyles = makeStyles((theme) => ({
 const UserProfilePage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.user.users);
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const alertInfo = useSelector((state) => state.news.alertInfo);
   const [open, setOpen] = useState(false);
   const [modalMode, setModalMode] = useState('');
 
-  useEffect(() => dispatch(loadUsers({ params: 'isCurrent=true' })), []);
+  useEffect(() => dispatch(loadUsers({ isCurrent: true })), []);
 
   const handleOpen = (mode) => {
     setOpen(true);
@@ -45,12 +48,16 @@ const UserProfilePage = () => {
 
   return (
     <div className={'main-block'}>
-      <Button variant="contained" color="primary" onClick={() => handleOpen('edit')}>
-        edit profile
-      </Button>
-      <Button variant="contained" color="primary" onClick={() => handleOpen('new')}>
-        Add news
-      </Button>
+      {alertInfo && <InfoBlock info={alertInfo} />}
+      <div className={'action-block'}>
+        <Button variant="contained" color="primary" onClick={() => handleOpen('edit')}>
+          edit profile
+        </Button>
+        <Button variant="contained" color="primary" onClick={() => handleOpen('new')}>
+          Add news
+        </Button>
+      </div>
+      <ProfileInfo info={userInfo} />
       {userInfo.articles && userInfo.articles.length ? (
         <NewsList news={userInfo.articles} />
       ) : (
@@ -68,7 +75,11 @@ const UserProfilePage = () => {
           timeout: 500,
         }}
       >
-        {modalMode === 'new' ? <AddNewsForm /> : <EditProfileForm />}
+        {modalMode === 'new' ? (
+          <AddNewsForm closeModal={handleClose} />
+        ) : (
+          <EditProfileForm closeModal={handleClose} />
+        )}
       </Modal>
     </div>
   );

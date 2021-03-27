@@ -1,10 +1,10 @@
 import { takeEvery } from 'redux-saga/effects';
 import { LOAD_USERS, LOAD_USER_INFO } from '../constants/index';
 import { getLocalStorageItem } from '../../hooks/useLocalStorage';
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import { apiUrl } from '../../config';
-import { put } from 'redux-saga/effects';
+
 import {
   loadUserInfoSuccess,
   loadUserInfoFailed,

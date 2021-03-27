@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { checkIfAuthorized } from '../hooks/usePermissions';
+import { getLocalStorageItem } from '../hooks/useLocalStorage';
 import { requestSignOut } from '../redux/actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +89,7 @@ const PrimarySearchAppBar = () => {
   const menuId = 'primary-search-account-menu';
 
   useEffect(() => {
-    setIsAuthorized(checkIfAuthorized());
+    setIsAuthorized(getLocalStorageItem('uid'));
   });
 
   const isMenuOpen = Boolean(anchorEl);
