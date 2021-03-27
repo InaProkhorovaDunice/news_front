@@ -1,3 +1,5 @@
+import { getLocalStorageItem } from '../hooks/useLocalStorage';
+
 export const checkIfAuthorized = () => {
-  return false;
+  return getLocalStorageItem('uid');
 };
