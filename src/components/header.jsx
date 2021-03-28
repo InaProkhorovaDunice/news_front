@@ -10,11 +10,14 @@ import {
   InputBase,
   MenuItem,
   Menu,
+  Select,
+  Button,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { getLocalStorageItem } from '../hooks/useLocalStorage';
 import { requestSignOut } from '../redux/actions/authActions';
+import { loadAllNews } from '../redux/actions/newsActions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -78,6 +81,12 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  selectorRoot: {
+    color: 'white',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    padding: `${theme.spacing(1)}px`,
+  },
 }));
 
 const PrimarySearchAppBar = () => {
@@ -86,6 +95,8 @@ const PrimarySearchAppBar = () => {
   const navigation = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchBy, setSearchBy] = useState('All');
   const menuId = 'primary-search-account-menu';
 
   useEffect(() => {
@@ -116,6 +127,10 @@ const PrimarySearchAppBar = () => {
     navigation.push('/');
   };
 
+  const searchArticle = () => {
+    dispatch(loadAllNews({ search: searchQuery }));
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -134,8 +149,29 @@ const PrimarySearchAppBar = () => {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
             />
           </div>
+          <Select
+            classes={{
+              root: classes.selectorRoot,
+            }}
+            value={searchBy}
+            defaultValue={'All'}
+            onChange={(event) => setSearchBy(event.target.value)}
+            name="searchBy"
+            variant={'outlined'}
+            inputProps={{
+              id: 'age-native-required',
+            }}
+          >
+            <option aria-label="All" value="" />
+            <option value={'All'}>All</option>
+            <option value={'User'}>User</option>
+            <option value={'HashTags'}>HashTags</option>
+          </Select>
+          <Button onClick={searchArticle}>Search</Button>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton

@@ -8,14 +8,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
-import { loadUserInfo } from '../redux/actions/userActions';
-import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,19 +31,15 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
-  'MuiCardHeader-content': {},
-  'span.MuiTypography-root.MuiCardHeader-subheader.MuiTypography-body2.MuiTypography-colorTextSecondary.MuiTypography-displayBlock': {
-    color: theme.palette.text.primary,
+  link: {
     cursor: 'pointer',
+    color: theme.palette.info.dark,
+    textDecoration: 'underline',
   },
 }));
 
 const NewsCard = ({ author, news }) => {
   const navigation = useHistory();
-  // const dispatch = useDispatch();
   const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -63,17 +55,8 @@ const NewsCard = ({ author, news }) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar
-            src={'https://avatarko.ru/img/kartinka/1/zhivotnye_kotenok.jpg'}
-            aria-label="recipe"
-            className={classes.avatar}
-          >
-            R
-          </Avatar>
-        }
         title={news.title}
-        subheader={author}
+        subheader={<Typography className={classes.link}>{author}</Typography>}
         onClick={authorPageRedirect}
       />
       <CardMedia
@@ -84,6 +67,9 @@ const NewsCard = ({ author, news }) => {
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {news.annotation}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {news.hashTags}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
