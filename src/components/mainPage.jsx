@@ -13,7 +13,11 @@ const MainPage = () => {
 
   return (
     <div className={'main-block'}>
-      {news && news.length ? <NewsList news={news} /> : <Typography>No news added yet.</Typography>}
+      {news?.length ? (
+        <NewsList info={{ articles: news }} />
+      ) : (
+        <Typography>No news added yet.</Typography>
+      )}
     </div>
   );
 };

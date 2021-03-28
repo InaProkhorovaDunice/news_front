@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import '../styles/pages.scss';
 import { loadAllNews } from '../redux/actions/newsActions';
 import { Typography, Avatar } from '@material-ui/core';
-import '../styles/pages.scss';
-import PropTypes from 'prop-types';
 
 const ProfileInfo = (props) => {
-  const { imgUrl, email, nickname } = props.info;
+  const { email, nickname } = props.info;
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(loadAllNews()), []);
@@ -14,11 +14,11 @@ const ProfileInfo = (props) => {
   return (
     <div className={'info-container'}>
       <div className={'avatar-block'}>
-        <Avatar alt="Remy Sharp" src={imgUrl} />
+        <Avatar alt="Remy Sharp" src={'https://avatarko.ru/img/kartinka/1/zhivotnye_kotenok.jpg'} />
       </div>
       <div className={'data-block'}>
-        <Typography>{`nickname: ${nickname}`}</Typography>
-        <Typography>{`email: ${email}`}</Typography>
+        {nickname && <Typography>{nickname}</Typography>}
+        <Typography>{email}</Typography>
       </div>
     </div>
   );

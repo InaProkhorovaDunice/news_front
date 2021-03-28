@@ -6,23 +6,13 @@ import {
   createNewsSuccess,
   createNewsFailed,
 } from '../actions/newsActions';
-import { getLocalStorageItem } from '../../hooks/useLocalStorage';
 import axios from 'axios';
-import { apiUrl } from '../../config';
+import { getUrl, getHeaders } from '../../hooks/useAxios';
 
-function* loadAllNews() {
-  const accessToken = getLocalStorageItem('access-token');
-  const uid = getLocalStorageItem('uid');
-  const client = getLocalStorageItem('client');
+function* loadAllNews(action) {
   try {
-    const response = yield call(axios.get, `${apiUrl}/articles`, {
-      headers: {
-        'Access-Control-Allow-Origin': '*/*',
-        'Content-Type': 'application/json',
-        'access-token': accessToken,
-        uid: uid,
-        client: client,
-      },
+    const response = yield call(axios.get, getUrl('articles', action.payload), {
+      headers: getHeaders(),
     });
     yield put(loadAllNewsSuccess(response.data));
   } catch (error) {
@@ -31,18 +21,9 @@ function* loadAllNews() {
 }
 
 function* createNews(action) {
-  const accessToken = getLocalStorageItem('access-token');
-  const uid = getLocalStorageItem('uid');
-  const client = getLocalStorageItem('client');
   try {
-    yield call(axios.post, `${apiUrl}/articles`, action.payload, {
-      headers: {
-        'Access-Control-Allow-Origin': '*/*',
-        'Content-Type': 'application/json',
-        'access-token': accessToken,
-        uid: uid,
-        client: client,
-      },
+    yield call(axios.post, getUrl('articles'), action.payload, {
+      headers: getHeaders(),
     });
     yield put(createNewsSuccess());
   } catch (error) {

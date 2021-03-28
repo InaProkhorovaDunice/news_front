@@ -7,6 +7,9 @@ import {
   LOAD_USERS,
   LOAD_USERS_SUCCESS,
   LOAD_USERS_FAILED,
+  UPDATE_USER_INFO,
+  UPDATE_USER_INFO_SUCCESS,
+  UPDATE_USER_INFO_FAILED,
   CLEAR_USERS_ALERT_INFO,
 } from '../constants';
 
@@ -17,6 +20,9 @@ export const {
   loadUsers,
   loadUsersSuccess,
   loadUsersFailed,
+  updateUserInfo,
+  updateUserInfoSuccess,
+  updateUserInfoFailed,
   clearUsersAlertInfo,
 } = createActions(
   LOAD_USER_INFO,
@@ -25,5 +31,8 @@ export const {
   LOAD_USERS,
   LOAD_USERS_SUCCESS,
   LOAD_USERS_FAILED,
+  UPDATE_USER_INFO,
+  UPDATE_USER_INFO_SUCCESS,
+  UPDATE_USER_INFO_FAILED,
   CLEAR_USERS_ALERT_INFO,
 );

@@ -3,13 +3,23 @@ import Grid from '@material-ui/core/Grid';
 import NewsCard from './newsCard';
 import PropTypes from 'prop-types';
 
-const NewsList = ({ news }) => {
+const NewsList = ({ info }) => {
+  const { nickname, email, articles } = info;
+
+  const getAuthorName = (author) => {
+    if (author) {
+      return author.nickname || author.email;
+    } else {
+      return nickname || email;
+    }
+  };
+
   return (
     <div>
       <Grid container spacing={3}>
-        {news.map((el) => (
+        {articles?.map((el) => (
           <Grid item xs={3} key={el.id}>
-            <NewsCard />
+            <NewsCard author={getAuthorName(el.user)} news={el} />
           </Grid>
         ))}
       </Grid>
@@ -18,7 +28,7 @@ const NewsList = ({ news }) => {
 };
 
 NewsList.propTypes = {
-  news: PropTypes.array.isRequired,
+  info: PropTypes.object.isRequired,
 };
 
 export default React.memo(NewsList);

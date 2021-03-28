@@ -8,7 +8,7 @@ import {
   requestSignOutSuccess,
   requestSignOutFailed,
 } from '../actions/authActions';
-import { getLocalStorageItem } from '../../hooks/useLocalStorage';
+import { getUrl, getHeaders } from '../../hooks/useAxios';
 
 function* requestSignUp(action) {
   try {
@@ -34,20 +34,10 @@ function* requestSignIn(action) {
   }
 }
 
-function* requestSignOut(action) {
-  const accessToken = getLocalStorageItem('access-token');
-  const uid = getLocalStorageItem('uid');
-  const client = getLocalStorageItem('client');
-
+function* requestSignOut() {
   try {
-    yield call(axios.delete, `${apiUrl}/auth/sign_out`, {
-      headers: {
-        'Access-Control-Allow-Origin': '*/*',
-        'Content-Type': 'application/json',
-        'access-token': accessToken,
-        uid: uid,
-        client: client,
-      },
+    yield call(axios.delete, getUrl('auth/sign_out'), {
+      headers: getHeaders(),
     });
     yield put(requestSignOutSuccess());
   } catch (error) {

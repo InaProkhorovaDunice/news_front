@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import '../styles/pages.scss';
@@ -7,10 +7,8 @@ import { loadUsers } from '../redux/actions/userActions';
 import NewsList from './newsList';
 import InfoBlock from './common/infoBlock';
 import ProfileInfo from '../components/profileInfo';
-// const AddNewsForm = lazy(() => import('../components/addNewsForm'));
 import AddNewsForm from '../components/addNewsForm';
 import EditProfileForm from '../components/editProfileForm';
-// const EditProfileForm = lazy(() => import('../components/editProfileForm'));
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -58,8 +56,8 @@ const UserProfilePage = () => {
         </Button>
       </div>
       <ProfileInfo info={userInfo} />
-      {userInfo.articles && userInfo.articles.length ? (
-        <NewsList news={userInfo.articles} />
+      {userInfo.articles?.length ? (
+        <NewsList info={userInfo} />
       ) : (
         <Typography>No news added yet.</Typography>
       )}
@@ -78,7 +76,7 @@ const UserProfilePage = () => {
         {modalMode === 'new' ? (
           <AddNewsForm closeModal={handleClose} />
         ) : (
-          <EditProfileForm closeModal={handleClose} />
+          <EditProfileForm closeModal={handleClose} info={userInfo} />
         )}
       </Modal>
     </div>
