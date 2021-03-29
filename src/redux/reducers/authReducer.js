@@ -16,7 +16,7 @@ const authHandler = {
   [requestSignInSuccess]: (state, { payload }) => {
     setLocalStorageItem('client', payload.headers.client);
     setLocalStorageItem('access-token', payload.headers['access-token']);
-    setLocalStorageItem('uid', payload.headers['uid']);
+    setLocalStorageItem('uid', payload.headers.uid);
     return { ...state, userInfo: payload.data, registrationError: '' };
   },
   [requestSignInFailed]: (state, { payload }) => {

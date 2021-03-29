@@ -15,10 +15,6 @@ export const setLocalStorageItem = (key, data) => {
   }
 };
 
-export const removeLocalStorageItem = (key) => {
-  localStorage.removeItem(key);
-};
-
 export const clearLocalStorage = () => {
   localStorage.clear();
 };

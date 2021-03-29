@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -10,11 +10,14 @@ import {
   InputBase,
   MenuItem,
   Menu,
+  Select,
+  Button,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { checkIfAuthorized } from '../../hooks/usePermissions';
+import { getLocalStorageItem } from '../../hooks/useLocalStorage';
 import { requestSignOut } from '../../redux/actions/authActions';
+import { loadAllNews } from '../../redux/actions/newsActions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -27,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
+      cursor: 'pointer',
     },
   },
   search: {
@@ -65,6 +69,21 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  selectorRoot: {
+    color: 'white',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    padding: `${theme.spacing(1)}px`,
+    cursor: 'pointer',
+  },
+  selectorIcon: {
+    color: 'white',
+  },
+  selectorMenu: {
+    padding: `${theme.spacing(0.5)}px`,
+    cursor: 'pointer',
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -77,21 +96,30 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  searchButton: {
+    color: 'white',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    marginLeft: `${theme.spacing(2)}px`,
+    padding: `${theme.spacing(0.5)}px`,
+  },
 }));
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigation = useHistory();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isAuthorized, setIsAuthorized] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchBy, setSearchBy] = useState('All');
   const menuId = 'primary-search-account-menu';
+  const isMenuOpen = Boolean(anchorEl);
 
   useEffect(() => {
-    setIsAuthorized(checkIfAuthorized());
-  });
-
-  const isMenuOpen = Boolean(anchorEl);
+    setIsAuthorized(getLocalStorageItem('uid'));
+  }, []);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -107,26 +135,72 @@ const PrimarySearchAppBar = () => {
     navigation.push('/sign_in');
   };
 
+  const profileRedirect = () => {
+    navigation.push('/profile');
+  };
+
+  const mainRedirect = () => {
+    navigation.push('/');
+  };
+
+  const searchArticle = () => {
+    const payload = { search: searchQuery, searchBy: searchBy === 'All' ? '' : searchBy };
+    dispatch(loadAllNews(payload));
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h6" noWrap onClick={mainRedirect}>
             News
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+          {location.pathname === '/' && (
+            <>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                />
+              </div>
+              <Select
+                classes={{
+                  root: classes.selectorRoot,
+                  icon: classes.selectorIcon,
+                }}
+                value={searchBy}
+                defaultValue={'All'}
+                onChange={(event) => setSearchBy(event.target.value)}
+                name="searchBy"
+                variant={'outlined'}
+                inputProps={{
+                  id: 'age-native-required',
+                }}
+              >
+                <option className={classes.selectorMenu} value={'All'}>
+                  All
+                </option>
+                <option className={classes.selectorMenu} value={'User'}>
+                  User
+                </option>
+                <option className={classes.selectorMenu} value={'HashTags'}>
+                  HashTags
+                </option>
+              </Select>
+              <Button className={classes.searchButton} variant={'outlined'} onClick={searchArticle}>
+                Search
+              </Button>
+            </>
+          )}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton
@@ -153,8 +227,7 @@ const PrimarySearchAppBar = () => {
       >
         {isAuthorized ? (
           <div>
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>All news</MenuItem>
+            <MenuItem onClick={profileRedirect}>Profile</MenuItem>
             <MenuItem onClick={signOut}>Sign Out</MenuItem>
           </div>
         ) : (
