@@ -10,27 +10,16 @@ export const getUrl = (route, paramsObj) => {
   return `${apiUrl}/${route}${params}`;
 };
 
-export const getHeaders = (type = 'normal') => {
+export const getHeaders = () => {
   const accessToken = getLocalStorageItem('access-token');
   const uid = getLocalStorageItem('uid');
   const client = getLocalStorageItem('client');
-  let headers;
-  if (type === 'formData') {
-    headers = {
-      'Access-Control-Allow-Origin': '*/*',
-      'Content-Type': 'application/json',
-      'access-token': accessToken,
-      uid: uid,
-      client: client,
-    };
-  } else {
-    headers = {
-      'Access-Control-Allow-Origin': '*/*',
-      'Content-Type': 'application/json',
-      'access-token': accessToken,
-      uid: uid,
-      client: client,
-    };
-  }
-  return headers;
+
+  return {
+    'Access-Control-Allow-Origin': '*/*',
+    'Content-Type': 'application/json',
+    'access-token': accessToken,
+    uid: uid,
+    client: client,
+  };
 };

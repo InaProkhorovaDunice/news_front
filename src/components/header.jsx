@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -69,6 +69,21 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  selectorRoot: {
+    color: 'white',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    padding: `${theme.spacing(1)}px`,
+    cursor: 'pointer',
+  },
+  selectorIcon: {
+    color: 'white',
+  },
+  selectorMenu: {
+    padding: `${theme.spacing(0.5)}px`,
+    cursor: 'pointer',
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -81,17 +96,19 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  selectorRoot: {
+  searchButton: {
     color: 'white',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
-    padding: `${theme.spacing(1)}px`,
+    marginLeft: `${theme.spacing(2)}px`,
+    padding: `${theme.spacing(0.5)}px`,
   },
 }));
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigation = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -101,7 +118,7 @@ const PrimarySearchAppBar = () => {
 
   useEffect(() => {
     setIsAuthorized(getLocalStorageItem('uid'));
-  });
+  }, []);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -128,7 +145,8 @@ const PrimarySearchAppBar = () => {
   };
 
   const searchArticle = () => {
-    dispatch(loadAllNews({ search: searchQuery }));
+    const payload = { search: searchQuery, searchBy: searchBy === 'All' ? '' : searchBy };
+    dispatch(loadAllNews(payload));
   };
 
   return (
@@ -138,40 +156,52 @@ const PrimarySearchAppBar = () => {
           <Typography className={classes.title} variant="h6" noWrap onClick={mainRedirect}>
             News
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-            />
-          </div>
-          <Select
-            classes={{
-              root: classes.selectorRoot,
-            }}
-            value={searchBy}
-            defaultValue={'All'}
-            onChange={(event) => setSearchBy(event.target.value)}
-            name="searchBy"
-            variant={'outlined'}
-            inputProps={{
-              id: 'age-native-required',
-            }}
-          >
-            <option aria-label="All" value="" />
-            <option value={'All'}>All</option>
-            <option value={'User'}>User</option>
-            <option value={'HashTags'}>HashTags</option>
-          </Select>
-          <Button onClick={searchArticle}>Search</Button>
+          {location.pathname === '/' && (
+            <>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                />
+              </div>
+              <Select
+                classes={{
+                  root: classes.selectorRoot,
+                  icon: classes.selectorIcon,
+                }}
+                value={searchBy}
+                defaultValue={'All'}
+                onChange={(event) => setSearchBy(event.target.value)}
+                name="searchBy"
+                variant={'outlined'}
+                inputProps={{
+                  id: 'age-native-required',
+                }}
+              >
+                <option className={classes.selectorMenu} value={'All'}>
+                  All
+                </option>
+                <option className={classes.selectorMenu} value={'User'}>
+                  User
+                </option>
+                <option className={classes.selectorMenu} value={'HashTags'}>
+                  HashTags
+                </option>
+              </Select>
+              <Button className={classes.searchButton} variant={'outlined'} onClick={searchArticle}>
+                Search
+              </Button>
+            </>
+          )}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton
