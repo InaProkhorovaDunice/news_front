@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import '../styles/common.scss';
@@ -7,8 +7,9 @@ import { loadUsers } from '../redux/actions/userActions';
 import NewsList from './common/newsList';
 import InfoBlock from './common/infoBlock';
 import ProfileInfo from './common/profileInfo';
-import AddNewsForm from './forms/addNewsForm';
-import EditProfileForm from './forms/editProfileForm';
+import Spinner from '../components/common/spinner';
+const AddNewsForm = lazy(() => import('../components/forms/addNewsForm'));
+const EditProfileForm = lazy(() => import('../components/forms/editProfileForm'));
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -73,11 +74,13 @@ const UserProfilePage = () => {
           timeout: 500,
         }}
       >
-        {modalMode === 'new' ? (
-          <AddNewsForm closeModal={handleClose} />
-        ) : (
-          <EditProfileForm closeModal={handleClose} info={userInfo} />
-        )}
+        <Suspense fallback={<Spinner />}>
+          {modalMode === 'new' ? (
+            <AddNewsForm closeModal={handleClose} />
+          ) : (
+            <EditProfileForm closeModal={handleClose} info={userInfo} />
+          )}
+        </Suspense>
       </Modal>
     </div>
   );

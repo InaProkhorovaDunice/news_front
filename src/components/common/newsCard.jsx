@@ -95,7 +95,7 @@ const NewsCard = ({ author, news }) => {
 };
 
 NewsCard.propTypes = {
-  author: PropTypes.func.isRequired,
+  author: PropTypes.string.isRequired,
   news: PropTypes.object.isRequired,
 };
 
