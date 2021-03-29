@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
-import { loadUserInfo } from '../redux/actions/userActions';
+import '../styles/common.scss';
 import { Typography } from '@material-ui/core';
-import '../styles/pages.scss';
-import NewsList from './newsList';
-import ProfileInfo from './profileInfo';
+import { loadUserInfo } from '../redux/actions/userActions';
+import NewsList from './common/newsList';
+import ProfileInfo from './common/profileInfo';
 
 const AuthorPage = () => {
   const dispatch = useDispatch();

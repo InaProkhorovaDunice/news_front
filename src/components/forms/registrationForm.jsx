@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { upperFirst } from 'lodash';
+import { useForm } from 'react-hook-form';
+import { getLocalStorageItem } from '../../hooks/useLocalStorage';
 import '../../styles/registration.scss';
 import '../../styles/reactForm.scss';
 import { Typography } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
-import { upperFirst } from 'lodash';
-import { useForm } from 'react-hook-form';
 import { validateEmail } from '../../hooks/useValidation';
-import { getLocalStorageItem } from '../../hooks/useLocalStorage';
 import { requestSignUp, requestSignIn } from '../../redux/actions/authActions';
 
 const classNames = require('classnames');

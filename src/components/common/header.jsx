@@ -15,9 +15,9 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { getLocalStorageItem } from '../hooks/useLocalStorage';
-import { requestSignOut } from '../redux/actions/authActions';
-import { loadAllNews } from '../redux/actions/newsActions';
+import { getLocalStorageItem } from '../../hooks/useLocalStorage';
+import { requestSignOut } from '../../redux/actions/authActions';
+import { loadAllNews } from '../../redux/actions/newsActions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -107,20 +107,19 @@ const useStyles = makeStyles((theme) => ({
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const location = useLocation();
+  const dispatch = useDispatch();
   const navigation = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchBy, setSearchBy] = useState('All');
   const menuId = 'primary-search-account-menu';
+  const isMenuOpen = Boolean(anchorEl);
 
   useEffect(() => {
     setIsAuthorized(getLocalStorageItem('uid'));
   }, []);
-
-  const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

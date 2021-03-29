@@ -6,7 +6,6 @@ import {
   loadUsersFailed,
   updateUserInfoSuccess,
   updateUserInfoFailed,
-  clearUsersAlertInfo,
 } from '../actions/userActions';
 
 const initialState = {
@@ -14,7 +13,6 @@ const initialState = {
   userInfo: {},
   loadUsersError: '',
   loadUserInfoError: '',
-  alertInfo: '',
 };
 
 const authHandler = {
@@ -35,9 +33,6 @@ const authHandler = {
   },
   [updateUserInfoFailed]: (state, { payload }) => {
     return { ...state, alertInfo: payload.error };
-  },
-  [clearUsersAlertInfo]: (state) => {
-    return { ...state, alertInfo: '' };
   },
 };
 

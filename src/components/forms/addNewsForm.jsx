@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import '../styles/reactForm.scss';
-import { Typography } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import { createNews } from '../redux/actions/newsActions';
 import PropTypes from 'prop-types';
+import '../../styles/reactForm.scss';
+import { Typography } from '@material-ui/core';
+import { createNews } from '../../redux/actions/newsActions';
 
 const classNames = require('classnames');
 

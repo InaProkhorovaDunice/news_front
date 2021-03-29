@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadAllNews } from '../redux/actions/newsActions';
+import '../styles/common.scss';
 import { Typography } from '@material-ui/core';
-import '../styles/pages.scss';
-import NewsList from './newsList';
+import { loadAllNews } from '../redux/actions/newsActions';
+import NewsList from './common/newsList';
 
 const MainPage = () => {
   const dispatch = useDispatch();

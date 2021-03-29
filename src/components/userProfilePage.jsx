@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import '../styles/pages.scss';
+import '../styles/common.scss';
 import { Typography, Button, Modal, Backdrop } from '@material-ui/core';
 import { loadUsers } from '../redux/actions/userActions';
-import NewsList from './newsList';
+import NewsList from './common/newsList';
 import InfoBlock from './common/infoBlock';
-import ProfileInfo from '../components/profileInfo';
-import AddNewsForm from '../components/addNewsForm';
-import EditProfileForm from '../components/editProfileForm';
+import ProfileInfo from './common/profileInfo';
+import AddNewsForm from './forms/addNewsForm';
+import EditProfileForm from './forms/editProfileForm';
 
 const useStyles = makeStyles((theme) => ({
   modal: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@material-ui/core';
 import NewsCard from './newsCard';
 import PropTypes from 'prop-types';
 

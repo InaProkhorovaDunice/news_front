@@ -2,17 +2,16 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Alert } from '@material-ui/lab';
-import { clearNewsAlertInfo } from '../../redux/actions/newsActions';
-import { clearUsersAlertInfo } from '../../redux/actions/userActions';
+import '../../styles/common.scss';
+import { clearNewsAlertInfo, loadAllNews } from '../../redux/actions/newsActions';
 
 const InfoBlock = ({ info }) => {
-  const { type, message, resource } = info;
+  const { type, message } = info;
   const dispatch = useDispatch();
 
   const clearAlertInfo = () => {
-    if (resource === 'news') {
-      dispatch(resource === 'news' ? clearNewsAlertInfo() : clearUsersAlertInfo());
-    }
+    dispatch(clearNewsAlertInfo());
+    dispatch(loadAllNews({ isCurrent: true }));
   };
 
   return (

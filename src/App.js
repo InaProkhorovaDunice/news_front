@@ -1,7 +1,7 @@
-import './App.scss';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './components/header';
+import './App.scss';
+import Header from './components/common/header';
 import MainPage from './components/mainPage';
 import SignInPage from './components/registration/signInPage';
 import SignUpPage from './components/registration/signUpPage';

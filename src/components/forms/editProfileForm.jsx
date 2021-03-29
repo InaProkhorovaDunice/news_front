@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import '../styles/reactForm.scss';
-import { Typography } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import { updateUserInfo } from '../redux/actions/userActions';
 import PropTypes from 'prop-types';
-import { validateEmail } from '../hooks/useValidation';
+import '../../styles/reactForm.scss';
+import { Typography } from '@material-ui/core';
+import { updateUserInfo } from '../../redux/actions/userActions';
+import { validateEmail } from '../../hooks/useValidation';
 
 const classNames = require('classnames');
 

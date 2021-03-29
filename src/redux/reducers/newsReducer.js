@@ -26,12 +26,11 @@ const authHandler = {
       alertInfo: {
         type: 'success',
         message: 'The news was successfully created',
-        resource: 'news',
       },
     };
   },
   [createNewsFailed]: (state, { payload }) => {
-    return { ...state, alertInfo: { type: 'success', message: payload.error, resource: 'news' } };
+    return { ...state, alertInfo: { type: 'success', message: payload.error } };
   },
   [clearNewsAlertInfo]: (state) => {
     return { ...state, alertInfo: '' };

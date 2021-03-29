@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import '../styles/pages.scss';
-import { loadAllNews } from '../redux/actions/newsActions';
+import '../../styles/common.scss';
 import { Typography, Avatar } from '@material-ui/core';
+import { loadAllNews } from '../../redux/actions/newsActions';
 
 const ProfileInfo = (props) => {
   const { email, nickname } = props.info;
